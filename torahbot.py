@@ -13,9 +13,9 @@ import os
 
 def main():
     reddit = praw.Reddit(
-    client_id=os.environ.get('CLIENT_ID'),
-    client_secret=os.environ.get('CLIENT_SECRET'),
-    password=os.environ.get('PASSWORD'),
+    client_id=os.environ.get('REDDIT_CLIENT_ID'),
+    client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
+    password=os.environ.get('REDDIT_PASSWORD'),
     user_agent="TorahBot (by u/o_m_f_g)",
     username="TorahBot",
     )
