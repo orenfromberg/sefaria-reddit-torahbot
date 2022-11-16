@@ -22,7 +22,7 @@ def main():
 
     subreddit = reddit.subreddit("judaism")
     for comment in subreddit.stream.comments(skip_existing=True):
-        print(comment.body)
+        print(comment.author.name + ": " + comment.body)
 
 if __name__ == "__main__":
     main()
