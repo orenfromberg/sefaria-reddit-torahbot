@@ -1,15 +1,11 @@
-import django
-django.setup()
-
-from sefaria.model import *
-import sefaria.system.database as database
-
 import praw
 import os
 
-# print(TextChunk.remove_html_and_make_presentable(Ref('Genesis 1:1-2').text('he').text))
-# print(Ref('Genesis 1:1-2').text('he').text)
+from redis import Redis
+from rq import Queue
 
+queue = Queue(connection=Redis(host=os.environ.get('REDIS_HOSTNAME')))
+import torahbotworker
 
 def main():
     reddit = praw.Reddit(
@@ -22,7 +18,13 @@ def main():
 
     subreddit = reddit.subreddit("judaism")
     for comment in subreddit.stream.comments(skip_existing=True):
-        print(comment.author.name + ": " + comment.body)
+        # discard if it belongs to me
+        if comment.author.name == "TorahBot":
+            print("discarding comment from me")
+            continue
+        else:
+            job = queue.enqueue(torahbotworker.process_comment, comment)
+            print(job)
 
 if __name__ == "__main__":
     main()

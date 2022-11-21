@@ -53,6 +53,7 @@ rauth==0.7.3
 redis==3.5.3
 regex==2020.10.23
 roman==3.3
+rq==1.11.1
 selenium==3.141.0
 tqdm==4.51.0
 ua-parser==0.10.0
