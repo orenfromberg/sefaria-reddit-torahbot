@@ -3,6 +3,7 @@ django.setup()
 
 from sefaria.model import *
 import sefaria.system.database as database
+from sefaria.system.exceptions import InputError
 
 import praw
 import os
@@ -332,17 +333,18 @@ titles = ['Bereshit',
  'Divrei Hayamim II',
  'II Chronicles']
 
+version_en = "The Holy Scriptures: A New Translation (JPS 1917)"
+version_he = "Tanach with Nikkud"
+
 def process_comment(comment):
-    # foo = comment.author.name + ": " + comment.body
-    # print(foo)
-    # return foo
     print(comment.author.name + ": " + comment.body)
     print('searching for text refs')
     start = time.perf_counter()
     refs = []
     for title in titles:
         regex = '\\b'+re.escape(title)+'\W+\d+:\d+(?:-\d+)?'
-        refs += re.findall(regex, comment.body, re.I)
+        # refs += re.findall(regex, comment.body, re.I)
+        refs += re.findall(regex, comment.body)
     end = time.perf_counter()
     print(f"search took {end - start:0.4f} seconds")
     #remove duplicates
@@ -352,3 +354,18 @@ def process_comment(comment):
         print(refs)
     else:
         print("No refs found.")
+        return
+    response = ""
+    for tref in refs:
+        try:
+            oref = Ref(tref)
+            response += "**" + tref + "**\n\n"
+            response += "*" + oref.text('en', version_en).ja(True).flatten_to_string() + "*\n\n"
+            response += oref.text('he', version_he).ja(True).flatten_to_string() + "\n\n"
+            response += "\n"
+        except InputError as e:
+            print("InputError: {}".format(e))
+            continue
+    print(response)
+    # validate that the response is under 10,000 chars.
+    comment.reply(response)
