@@ -16,8 +16,8 @@ def main():
     username="TorahBot",
     )
 
-    # subreddit = reddit.subreddit("judaism")
-    subreddit = reddit.subreddit("torahbot_test")
+    subreddit = reddit.subreddit("judaism")
+    # subreddit = reddit.subreddit("torahbot_test")
     for comment in subreddit.stream.comments(skip_existing=True):
         # discard if it belongs to me
         if comment.author.name == "TorahBot":
