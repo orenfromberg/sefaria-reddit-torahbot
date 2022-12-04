@@ -1,14 +1,15 @@
 import django
+
 django.setup()
 
-from sefaria.model import *
-import sefaria.system.database as database
-from sefaria.system.exceptions import InputError
-
-import praw
 import os
 import re
 import time
+
+import praw
+import sefaria.system.database as database
+from sefaria.model import *
+from sefaria.system.exceptions import InputError
 
 reddit = praw.Reddit(
     client_id=os.environ.get('REDDIT_CLIENT_ID'),
@@ -26,12 +27,16 @@ def render_refs(refs):
     for oref in refs:
         en = oref.text('en').ja(True).flatten_to_string()
         he = oref.text('he').ja(True).flatten_to_string()
-        response += "# " + oref.tref + "\n\n"
-        if he != "":
-            response += he + "\n\n"
-        if en != "":
-            response += ">" + en + "\n\n"
-        response += "\n"
+        if(len(en) > 1000): # if more than 1000 chars
+            # post a link to sefaria for the reference
+            response += f'See the whole text on sefaria.org: https://www.sefaria.org/{oref.url()}\n\n'
+        else:
+            response += "# " + oref.tref + "\n\n"
+            if he != "":
+                response += he + "\n\n"
+            if en != "":
+                response += ">" + en + "\n\n"
+            response += "\n"
     return response
 
 def process_comment(comment):
