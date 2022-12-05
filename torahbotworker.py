@@ -25,13 +25,13 @@ version_he = "Tanach with Nikkud"
 def render_refs(refs):
     response = ""
     for oref in refs:
-        en = oref.text('en').ja(True).flatten_to_string()
-        he = oref.text('he').ja(True).flatten_to_string()
+        en = oref.text('en').ja(True).flatten_to_string().strip()
+        he = oref.text('he').ja(True).flatten_to_string().strip()
+        response += "# " + oref.tref + "\n\n"
         if(len(en) > 1000): # if more than 1000 chars
             # post a link to sefaria for the reference
             response += f'See the whole text on sefaria.org: https://www.sefaria.org/{oref.url()}\n\n'
         else:
-            response += "# " + oref.tref + "\n\n"
             if he != "":
                 response += he + "\n\n"
             if en != "":
