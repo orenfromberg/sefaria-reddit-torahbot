@@ -25,6 +25,8 @@ version_he = "Tanach with Nikkud"
 def render_refs(refs):
     response = ""
     for oref in refs:
+        if(oref.is_empty()):
+            continue
         en = oref.text('en').ja(True).flatten_to_string().strip()
         he = oref.text('he').ja(True).flatten_to_string().strip()
         response += "# " + oref.tref + "\n\n"
@@ -55,7 +57,10 @@ def process_comment(comment):
         print("No refs found.")
         return
     response = "*Dedicated to Dvora bat Jacot of blessed memory.*\n\n"
-    response += render_refs(refs)
+    result = render_refs(refs)
+    if(len(result) == 0):
+        return
+    response += result
     print(response)
     # TODO validate that the response is under 10,000 chars.
     comment.reply(response)
