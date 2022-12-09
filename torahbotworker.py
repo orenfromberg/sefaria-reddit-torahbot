@@ -27,18 +27,17 @@ def render_refs(refs):
     for oref in refs:
         if(oref.is_empty()):
             continue
-        en = oref.text('en').ja(True).flatten_to_string().strip()
-        he = oref.text('he').ja(True).flatten_to_string().strip()
-        response += "# " + oref.tref + "\n\n"
-        if(len(en) > 1000): # if more than 1000 chars
-            # post a link to sefaria for the reference
-            response += f'See the whole text on sefaria.org: https://www.sefaria.org/{oref.url()}\n\n'
-        else:
+        text = ""
+        for he,en in list(zip(oref.text('he').ja(True).flatten_to_array(), oref.text('en').ja(True).flatten_to_array())):
             if he != "":
-                response += he + "\n\n"
+                text += he.strip() + "\n\n"
             if en != "":
-                response += ">" + en + "\n\n"
-            response += "\n"
+                text += ">" + en.strip() + "\n\n"
+        if(len(text) > 2000):
+            response += f'See [{oref.tref}](https://www.sefaria.org/{oref.url()}) on Sefaria.\n\n'
+        else:
+            response += f'[{oref.tref}](https://www.sefaria.org/{oref.url()})\n\n'
+            response += text
     return response
 
 def process_comment(comment):
