@@ -15,8 +15,8 @@ reddit = praw.Reddit(
     client_id=os.environ.get('REDDIT_CLIENT_ID'),
     client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
     password=os.environ.get('REDDIT_PASSWORD'),
-    user_agent="TorahBot (by u/o_m_f_g)",
-    username="TorahBot",
+    user_agent=os.environ.get('REDDIT_USER_AGENT'),
+    username=os.environ.get('REDDIT_USERNAME'),
     )
 
 version_en = "The Holy Scriptures: A New Translation (JPS 1917)"
