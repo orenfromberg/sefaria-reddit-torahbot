@@ -49,6 +49,7 @@ def process_comment(comment):
     print(f"search took {end - start:0.4f} seconds")
     #remove duplicates
     refs = [*set(refs)]
+    refs = sorted(refs, key=lambda x: x.normal())
     if len(refs) > 0:
         print("The following refs were found:")
         print(refs)
