@@ -24,8 +24,7 @@ def main():
         )
 
     data = parashat_hashavua_and_haftara(datetime.now(),True)
-    # version_en = "The Holy Scriptures: A New Translation (JPS 1917)"
-    version_en = "The Contemporary Torah, Jewish Publication Society, 2006"
+    version_en = "The Holy Scriptures: A New Translation (JPS 1917)"
     version_he = "Tanach with Nikkud"
 
     title = f'Weekly Torah Portion: {data[0]["displayValue"]["en"]}'
@@ -62,21 +61,8 @@ def main():
         else:
             content += buf
 
-    # print(title)
-    # print(content)
     reddit.subreddit(os.environ.get('REDDIT_SUB')).submit(title, selftext=content)
-    print(len(content))
-
-    # subreddit = reddit.subreddit("judaism")
-    # subreddit = reddit.subreddit("torahbot_test")
-    # for comment in subreddit.stream.comments(skip_existing=True):
-    #     # discard if it belongs to me
-    #     if comment.author.name == "TorahBot":
-    #         print("discarding comment from me")
-    #         continue
-    #     else:
-    #         job = queue.enqueue(torahbotworker.process_comment, comment)
-    #         print(job)
+    print(f'{len(content)} characters written.')
 
 if __name__ == "__main__":
     main()
