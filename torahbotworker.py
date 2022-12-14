@@ -34,9 +34,9 @@ def render_refs(refs):
             if en != "":
                 text += ">" + en.strip() + "\n\n"
         if(len(text) > 2000):
-            response += f'See [{oref.tref}](https://www.sefaria.org/{oref.url()}) on Sefaria.\n\n'
+            response += f'See [{oref.orig_tref}](https://www.sefaria.org/{oref.url()}) on Sefaria.\n\n'
         else:
-            response += f'[{oref.tref}](https://www.sefaria.org/{oref.url()})\n\n'
+            response += f'[{oref.orig_tref}](https://www.sefaria.org/{oref.url()})\n\n'
             response += text
     return response
 
