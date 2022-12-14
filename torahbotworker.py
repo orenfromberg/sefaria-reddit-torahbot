@@ -44,7 +44,12 @@ def process_comment(comment):
     print(comment.author.name + ": " + comment.body)
     print('searching for text refs')
     start = time.perf_counter()
-    refs = library.get_refs_in_string(comment.body, "en", True)
+
+    # split comment up
+    lines = comment.body.split('\n')
+    refs = []
+    for line in lines:
+        refs.extend(library.get_refs_in_string(line, "en", True))
     end = time.perf_counter()
     print(f"search took {end - start:0.4f} seconds")
     #remove duplicates
