@@ -61,7 +61,7 @@ def process_comment(comment):
     else:
         print("No refs found.")
         return
-    response = "🕯️ *Dedicated to Dvora bat Jacot of blessed memory.*\n\n"
+    response = "*Dedicated to Dvora bat Jacot of blessed memory.* 🕯️\n\n"
     result = render_refs(refs)
     if(len(result) == 0):
         return
