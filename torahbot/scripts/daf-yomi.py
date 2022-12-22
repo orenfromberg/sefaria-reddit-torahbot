@@ -35,7 +35,8 @@ def main():
     title = f'{data[0]["title"]["en"]} for {now.strftime("%b %d, %Y")}: {data[0]["displayValue"]["en"]}'
     print(title)
     # content = f'*{data[0]["description"]["en"]}*\n\n'
-    content = ""
+    content = "*Dedicated to Dvora bat Jacot of blessed memory.* 🕯️\n\n"
+
     # content += f'As translated in **{version_en}**\n\n'
     sefaria_host = "https://www.sefaria.org/"
 
